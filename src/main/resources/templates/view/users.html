@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/routestyle.css}">
+    <script type="text/javascript" th:src="@{/js/ownscript.js}"></script>
+
+</head>
+<body>
+
+<div class="d-flex justify-content-center"><h1 th:text="#{welcome.message}"></h1></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+    <div class="col">
+        <ul class="nav nav-pills">
+            <li role="presentation" class="active"><span class="caret"><p th:text="${username}"></p></span></li>
+            <li role="presentation" class="active">
+                <form action="/logout" method="POST">
+                    <div class="d-flex flex-row align-items-center pull-right"><button type = "submit" class="btn btn-secondary  btn-sm" th:text="#{welcome.exit}">exit</button></div>
+                </form>
+            </li>
+            <li role="presentation" class="active"><button type="button" class="btn btn-secondary btn-sm" id="id_button_back" th:text="#{welcome.back}"></button></li>
+            <li role="presentation" class="active">
+                <div th:if="${userrole} == 'ADMIN' OR ${userrole} == 'DEVELOPERS'"  class="d-flex flex-row align-items-center pull-right">
+                    <button type="button" class="btn btn-secondary btn-sm" id="idcartsitemy" th:text="#{welcome.carts}"></button>
+                </div>
+            </li>
+        </ul>
+    </div>
+        <div class="col">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col p-3 mb-2 bg-primary text-white"><span>Email</span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span>First Name</span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span>Last Name</span></div>
+        <div class="col-md-4 p-3 mb-2 bg-primary text-white"><span>Password</span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span>Role</span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span>Status</span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"></div>
+        <div class="col p-3 mb-2 bg-primary text-white"></div>
+        <div class="col p-3 mb-2 bg-primary text-white"></div>
+    </div>
+    <div class="row" th:each="user : ${listUsers}">
+        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.email}"></span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.firstName}"></span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.lastName}"></span></div>
+        <div class="col-md-4 p-3 mb-2 bg-primary text-white"><span th:text="${user.password}"></span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.role}"></span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.status}"></span></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewview btn-secondary btn-block">View</button></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewedit btn-secondary btn-block">Edit</button></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewdelete btn-secondary btn-block">Delete</button></div>
+    </div>
+    <div class="row">
+        <div class="col p-3 mb-2 bg-primary text-white"><button id="add" class="btn btn-secondary btn-block">Add</button></div>
+    </div>
+</div>
+
+</body>
+</html>
