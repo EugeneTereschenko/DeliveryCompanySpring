@@ -18,17 +18,4 @@ public class SpringDelliveryCompanyApplication {
 		SpringApplication.run(SpringDelliveryCompanyApplication.class, args);
 	}
 
-/*	@Value("${messages.properties}")
-	private String messagesBasename;
-
-	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setFallbackToSystemLocale(false);
-		messageSource.setBasenames("file:" + messagesBasename);
-		return messageSource;
-	}*/
-
-
-
 }
