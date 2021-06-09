@@ -28,6 +28,111 @@
     <link rel="stylesheet" th:href="@{/css/routestyle.css}">
     <script type="text/javascript" th:src="@{/js/ownscript.js}"></script>
 
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+
+            $(".pdfreport").click(function () {
+
+                console.log("test");
+
+
+                var url = "http://localhost:8080/cart/createpdfdoc/" + this.id;
+
+                window.open(url, '_blank');
+            });
+
+            $(".confirm").click(function () {
+                var cart = {};
+
+                cart.id = this.id;
+                cart.checkoutstep = "confirm";
+
+                $.ajax({
+                    url: '/cart/updateorder',
+                    type: 'PUT',
+                    data: JSON.stringify(cart),
+                    contentType: "application/json",
+                    beforeSend: function (x) {
+                        if (x && x.overrideMimeType) {
+                            x.overrideMimeType("application/json;charset=UTF-8");
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+
+                    },
+                    failure: function (data) {
+                        console.log(data);
+
+                    }
+                });
+
+            });
+
+
+            $(".canceled").click(function () {
+                var cart = {};
+
+                cart.id = this.id;
+                cart.checkoutstep = "cancel";
+
+                $.ajax({
+                    url: '/cart/updateorder',
+                    type: 'PUT',
+                    data: JSON.stringify(cart),
+                    contentType: "application/json",
+                    beforeSend: function (x) {
+                        if (x && x.overrideMimeType) {
+                            x.overrideMimeType("application/json;charset=UTF-8");
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+
+                    },
+                    failure: function (data) {
+                        console.log(data);
+
+                    }
+                });
+
+            });
+
+            $(".complete").click(function () {
+                var cart = {};
+
+                cart.id = this.id;
+                cart.checkoutstep = "complete";
+
+                $.ajax({
+                    url: '/cart/updateorder',
+                    type: 'PUT',
+                    data: JSON.stringify(cart),
+                    contentType: "application/json",
+                    beforeSend: function (x) {
+                        if (x && x.overrideMimeType) {
+                            x.overrideMimeType("application/json;charset=UTF-8");
+                        }
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+
+                    },
+                    failure: function (data) {
+                        console.log(data);
+
+                    }
+                });
+
+            });
+
+        });
+    </script>
+
 </head>
 <body>
 

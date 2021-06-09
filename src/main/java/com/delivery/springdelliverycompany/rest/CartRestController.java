@@ -131,6 +131,15 @@ public class CartRestController {
         return cart;
     }
 
+    @PutMapping(path="/updateorder", consumes= {"application/json"})
+    public Cart saveOrUpdateConfirmCart(@RequestBody Cart cart)
+    {
+
+        Cart a = cartRepo.getById(cart.getId());
+        a.setCheckoutstep(cart.getCheckoutstep());
+        cartRepo.save(a);
+        return cart;
+    }
 
 
 }

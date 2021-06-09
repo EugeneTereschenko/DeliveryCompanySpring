@@ -29,30 +29,209 @@
     <script type="text/javascript" th:src="@{/js/ownscript.js}"></script>
 
 </head>
+
+
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+
+        $("#dialog").on("click", ".id_user_but", function () {
+            console.log(this.id);
+            console.log("test");
+        });
+
+        $("#id_user_but").click(function () {
+             alert("TEST");
+
+            var user = {};
+
+            var email= $('#email_user').val();
+            var firstname = $('#first_name').val();
+            var lastname = $('#last_name').val();
+            var role = $('#role_user').val();
+            var password = $('#password').val();
+            var confirmpassword = $('#confirm_password').val();
+            var status = $('#role_status').val();
+
+
+            user.email = email;
+            user.firstName = firstname;
+            user.lastName = lastname;
+            user.role = role;
+            user.password = password ;
+            //user.confirmpassword = confirmpassword;
+            user.status = status;
+
+            $.ajax({
+                url: '/api/users',
+                type: 'POST',
+                data: JSON.stringify(user),
+                contentType: "application/json",
+                beforeSend: function (x) {
+                    if (x && x.overrideMimeType) {
+                        x.overrideMimeType("application/json;charset=UTF-8");
+                    }
+                },
+                success: function (data) {
+                    // alert('success'+data);
+                    console.log(data);
+                    $("#sentstatus").html(data.id.toString());
+                  //  window.location.replace("http://localhost:8080/api/showusers");
+
+                },
+                failure: function (data) {
+                    console.log(data);
+                    // alert(data);
+                    $("#sentstatus").html("error");
+                }
+            });
+
+
+        });
+
+
+        $(".usersnewdelete").click(function () {
+            console.log("TEST");
+           // id="usersnewdelete"
+           // var aid= $('.buttonid').val();
+            var aid= this.id;
+                console.log(aid);
+
+            $.ajax({
+                url: "/api/users/" + aid,
+                type: 'DELETE',
+                contentType: "application/json",
+                dataType : 'json',
+                success: function (data) {
+                    //alert('success'+data);
+                    console.log(data);
+                    $("#TextUserDiv" + aid).remove();
+
+                },
+                failure: function (data) {
+                    console.log(data);
+                    alert(data);
+
+                }
+            });
+
+        });
+
+    });
+</script>
 <body>
 
 <div class="d-flex justify-content-center"><h1 th:text="#{welcome.message}"></h1></div>
+
+
+<div id="dialog" class="modal fade" title="Sent user" role="dialog">
+
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Input user</h4>
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm1">Email</span>
+                </div>
+                <input type="text" class="form-control" id="email_user"  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm2">First name</span>
+                </div>
+                <input type="text" class="form-control" id="first_name"  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm3">Last name</span>
+                </div>
+                <input type="text" class="form-control" id="last_name"  aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            <div class="control-group" align = "center">
+                <select class="form-select" aria-label="Default select example" id="role_user" name="role_user" value = "3">
+                    <option selected>user</option>
+                    <option value="ADMIN">admin</option>
+                    <option value="DEVELOPER">developer</option>
+                    <option value="USER">user</option>
+                </select>
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+            <!-- Password -->
+                <label class="control-label" for="password">Password</label>
+                <div class="controls">
+                    <input type="password" id="password" name="pass" placeholder="" class="input-xlarge">
+                    <p class="help-block">Password should be at least 4 characters</p>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <!--Password-->
+                    <label class="control-label" for="password">Confirm Password</label>
+                    <div class="controls">
+                        <input type="password" id="confirm_password" name="pass" placeholder="" class="input-xlarge">
+                        <p class="help-block">Password should be at least 4 characters</p>
+                    </div>
+            </div>
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="control-group" align = "center">
+                    <select class="form-select" aria-label="Default select example" id="role_status" name="role_status" value = "3">
+                        <option selected>user</option>
+                        <option value="BANNED">BANNED</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                    </select>
+                </div>
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="modal-footer">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="sentstatus">status</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="id_user_but" class="btn btn-secondary" type="button" >Sent</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="id_user_close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="container">
     <div class="row">
         <div class="col-md-3">
         </div>
-    <div class="col">
-        <ul class="nav nav-pills">
-            <li role="presentation" class="active"><span class="caret"><p th:text="${username}"></p></span></li>
-            <li role="presentation" class="active">
-                <form action="/logout" method="POST">
-                    <div class="d-flex flex-row align-items-center pull-right"><button type = "submit" class="btn btn-secondary  btn-sm" th:text="#{welcome.exit}">exit</button></div>
-                </form>
-            </li>
-            <li role="presentation" class="active"><button type="button" class="btn btn-secondary btn-sm" id="id_button_back" th:text="#{welcome.back}"></button></li>
-            <li role="presentation" class="active">
-                <div th:if="${userrole} == 'ADMIN' OR ${userrole} == 'DEVELOPERS'"  class="d-flex flex-row align-items-center pull-right">
-                    <button type="button" class="btn btn-secondary btn-sm" id="idcartsitemy" th:text="#{welcome.carts}"></button>
-                </div>
-            </li>
-        </ul>
-    </div>
+        <div class="col">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><span class="caret"><p th:text="${username}"></p></span></li>
+                <li role="presentation" class="active">
+                    <form action="/logout" method="POST">
+                        <div class="d-flex flex-row align-items-center pull-right"><button type = "submit" class="btn btn-secondary  btn-sm" th:text="#{welcome.exit}">exit</button></div>
+                    </form>
+                </li>
+                <li role="presentation" class="active"><button type="button" class="btn btn-secondary btn-sm" id="id_button_back" th:text="#{welcome.back}"></button></li>
+                <li role="presentation" class="active">
+                    <div th:if="${userrole} == 'ADMIN' OR ${userrole} == 'DEVELOPERS'"  class="d-flex flex-row align-items-center pull-right">
+                        <button type="button" class="btn btn-secondary btn-sm" id="idcartsitemy" th:text="#{welcome.carts}"></button>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <div class="col">
         </div>
     </div>
@@ -64,22 +243,20 @@
         <div class="col p-3 mb-2 bg-primary text-white"><span>Role</span></div>
         <div class="col p-3 mb-2 bg-primary text-white"><span>Status</span></div>
         <div class="col p-3 mb-2 bg-primary text-white"></div>
-        <div class="col p-3 mb-2 bg-primary text-white"></div>
-        <div class="col p-3 mb-2 bg-primary text-white"></div>
     </div>
-    <div class="row" th:each="user : ${listUsers}">
-        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.email}"></span></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.firstName}"></span></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.lastName}"></span></div>
-        <div class="col-md-4 p-3 mb-2 bg-primary text-white"><span th:text="${user.password}"></span></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.role}"></span></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.status}"></span></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewview btn-secondary btn-block">View</button></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewedit btn-secondary btn-block">Edit</button></div>
-        <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" class="btn usersnewdelete btn-secondary btn-block">Delete</button></div>
+    <div th:each="user : ${listUsers}">
+        <div class="row" th:id="'TextUserDiv' + ${user.id}">
+            <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.email}"></span></div>
+            <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.firstName}"></span></div>
+            <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.lastName}"></span></div>
+            <div class="col-md-4 p-3 mb-2 bg-primary text-white"><span th:text="${user.password}"></span></div>
+            <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.role}"></span></div>
+            <div class="col p-3 mb-2 bg-primary text-white"><span th:text="${user.status}"></span></div>
+            <div class="col p-3 mb-2 bg-primary text-white"><button th:id="${user.id}" type="button" class="btn usersnewdelete btn-secondary btn-block" >Delete</button></div>
+        </div>
     </div>
     <div class="row">
-        <div class="col p-3 mb-2 bg-primary text-white"><button id="add" class="btn btn-secondary btn-block">Add</button></div>
+        <div class="col p-3 mb-2 bg-primary text-white"><button type="button" class="btn btn-secondary btn-block" data-toggle="modal" data-target="#dialog">Add</button></div>
     </div>
 </div>
 
